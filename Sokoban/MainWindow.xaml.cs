@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace Sokoban
 {
@@ -32,14 +33,14 @@ namespace Sokoban
             {
                 ColumnDefinition col = new ColumnDefinition();
                 col.Width = new GridLength(CellSize);
-                VakjesView.ColumnDefinitions.Add(col);
+                VakkenView.ColumnDefinitions.Add(col);
             }
 
             for (int i = 0; i < nRows; i++)
             {
                 RowDefinition row = new RowDefinition();
                 row.Height = new GridLength(CellSize);
-                VakjesView.RowDefinitions.Add(row);
+                VakkenView.RowDefinitions.Add(row);
             }
 
             System.Reflection.Assembly thisExe =
@@ -63,7 +64,7 @@ namespace Sokoban
 
                     img.SetValue(Grid.ColumnProperty, i);
                     img.SetValue(Grid.RowProperty, j);
-                    VakjesView.Children.Add(img);
+                    VakkenView.Children.Add(img);
                 }
             }
         }
