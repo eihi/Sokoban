@@ -23,50 +23,41 @@ namespace Sokoban
     {
         public MainWindow()
         {
+            // Initializen
             InitializeComponent();
+        }
 
-            int nRows = 7;
-            int nCols = 7;
-            int CellSize = 40;
+        public void createGrid(List<string> doolhof)
+        {
+            Bord bord = new Bord(doolhof);
+            this.VakkenView.Children.Add(bord.toonGrid());
+        }
 
-            for (int i = 0; i < nCols; i++)
-            {
-                ColumnDefinition col = new ColumnDefinition();
-                col.Width = new GridLength(CellSize);
-                VakkenView.ColumnDefinitions.Add(col);
-            }
+        public List<string> readLevel(string level)
+        {
+            List<string> doolhof = new List<string>();
 
-            for (int i = 0; i < nRows; i++)
-            {
-                RowDefinition row = new RowDefinition();
-                row.Height = new GridLength(CellSize);
-                VakkenView.RowDefinitions.Add(row);
-            }
-
-            System.Reflection.Assembly thisExe =
-            System.Reflection.Assembly.GetExecutingAssembly();
+            System.Reflection.Assembly thisExe = System.Reflection.Assembly.GetExecutingAssembly();
             string path = thisExe.Location;
-            DirectoryInfo dirInfo = new DirectoryInfo(path);
-            string folderName = dirInfo.Parent.FullName;
+            DirectoryInfo dirinfo = new DirectoryInfo(path);
+            string folderName = dirinfo.Parent.FullName;
+            path = folderName + "/Levels/" + level + ".txt";
 
-            BitmapImage bmpMuur = new BitmapImage(new Uri(folderName + "/Images/muur.png"));
-            BitmapImage bmpVloer = new BitmapImage(new Uri(folderName + "/Images/vloer.png"));
-
-            for (int i = 0; i < nRows; i++)
+            using (var reader = new StreamReader(path))
             {
-                for (int j = 0; j < nCols; j++)
+                string line;
+                while ((line = reader.ReadLine()) != null)
                 {
-                    Image img = new Image();
-                    if (i == 0 || j == 0 || i == nRows - 1 || j == nCols - 1)
-                        img.Source = bmpMuur;
-                    else
-                        img.Source = bmpVloer;
-
-                    img.SetValue(Grid.ColumnProperty, i);
-                    img.SetValue(Grid.RowProperty, j);
-                    VakkenView.Children.Add(img);
+                    doolhof.Add(line);
                 }
             }
+
+            return doolhof;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            createGrid(readLevel("Doolhof1"));
         }
     }
 }

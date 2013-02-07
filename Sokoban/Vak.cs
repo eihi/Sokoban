@@ -11,11 +11,12 @@ namespace Sokoban
     class Vak
     {
         private BitmapImage img;
-        public string path;
+
         public BitmapImage Image
         {
             get { return img; }
         }
+
         protected BitmapImage MaakPlaatje(string naam)
         {
             System.Reflection.Assembly thisExe = System.Reflection.Assembly.GetExecutingAssembly();
