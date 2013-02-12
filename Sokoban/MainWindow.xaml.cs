@@ -21,16 +21,22 @@ namespace Sokoban
     /// </summary>
     public partial class MainWindow : Window
     {
+        Timer timer = new Timer();
+
         public MainWindow()
         {
             // Initializen
             InitializeComponent();
         }
 
+
         public void createGrid(List<string> doolhof)
         {
             Bord bord = new Bord(doolhof);
             this.VakkenView.Children.Add(bord.toonGrid());
+            timer.ResetTimer();
+            timer.StartTimer();
+            verstrekenTijd.Content = "Tijd: " + timer.waarde;
         }
 
         public List<string> readLevel(string level)
@@ -58,6 +64,12 @@ namespace Sokoban
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             createGrid(readLevel("Doolhof1"));
+            
+        }
+
+        private void tijd(object sender, MouseButtonEventArgs e)
+        {
+            verstrekenTijd.Content = "Tijd: " + timer.waarde;
         }
     }
 }

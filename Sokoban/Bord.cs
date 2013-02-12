@@ -78,26 +78,19 @@ namespace Sokoban
         // Vak wordt bepaald aan de hand van een string
         public Vak BepaalVak(string dh)
         {
-                switch (dh)
-                {
-                    case "#":
-                        return new Muur();
-                    case "o":
-                        // nog niet aangemaakt
-                        //return new Kist();
-                        break;
-                    case "x":
-                        // nog niet aangemaakt
-                        //return new Bestemming();
-                        break;
-                    case "@":
-                        // nog niet aangemaakt
-                        //return new Speler();
-                        break;
-                    default:
-                        return new Vloer();
-                }
-            return new Vloer();
+            switch (dh)
+            {
+                case "#":
+                    return new Muur();
+                case "o":
+                    return new Doos();
+                case "x":
+                    return new Bestemming();
+                case "@":
+                    return new Speler();
+                default:
+                    return new Vloer();
+            }
         }
     }
 }

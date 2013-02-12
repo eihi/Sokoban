@@ -37,13 +37,13 @@ namespace Sokoban
         }
     }
 
-    /*class Bestemming : Vak
+    class Bestemming : Vak
     {
         public Bestemming()
         {
             MaakPlaatje("bestemming");
         }
-    }*/
+    }
 
     class Muur : Vak
     {
