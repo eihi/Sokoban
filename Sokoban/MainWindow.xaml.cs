@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -21,12 +22,16 @@ namespace Sokoban
     /// </summary>
     public partial class MainWindow : Window
     {
-        Timer timer = new Timer();
+        DispatcherTimer dt;
+        private int _seconden = 0;
 
         public MainWindow()
         {
             // Initializen
             InitializeComponent();
+
+            // Timer
+            Timer();
         }
 
 
@@ -34,9 +39,9 @@ namespace Sokoban
         {
             Bord bord = new Bord(doolhof);
             this.VakkenView.Children.Add(bord.toonGrid());
-            timer.ResetTimer();
-            timer.StartTimer();
-            verstrekenTijd.Content = "Tijd: " + timer.waarde;
+            ResetTimer();
+            StartTimer();
+            verstrekenTijd.Content = "Tijd: " + _seconden;
         }
 
         public List<string> readLevel(string level)
@@ -67,9 +72,27 @@ namespace Sokoban
             
         }
 
-        private void tijd(object sender, MouseButtonEventArgs e)
+        public void Timer()
         {
-            verstrekenTijd.Content = "Tijd: " + timer.waarde;
+            dt = new DispatcherTimer();
+            dt.Interval = new TimeSpan(0, 0, 1); // 1 seconde
+            dt.Tick += new EventHandler(Each_Tick);
+        }
+
+        public void StartTimer() 
+        {
+            dt.Start();
+        }
+
+        public void ResetTimer()
+        {
+            _seconden = 0;
+        }
+
+        // Zolang de timer loopt wordt het elke seconde met 1 opgehoogd
+        public void Each_Tick(object sender, EventArgs e)
+        {
+            verstrekenTijd.Content = "Tijd: " + _seconden++;
         }
     }
 }

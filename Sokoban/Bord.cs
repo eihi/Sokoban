@@ -12,7 +12,6 @@ namespace Sokoban
 {
     class Bord
     {
-        // loopt te zeiken dat ie niet wordt gebruikt maar als je het verwijdert werkt de rest niet xD
         List<List<Vak>> vakken;
 
         // string[] doolhof als parameter meegeven
