@@ -20,5 +20,10 @@ namespace Sokoban
         {
             MaakPlaatje(_richting);
         }
+
+        public Speler(string r)
+        {
+            MaakPlaatje(r);
+        }
     }
 }
