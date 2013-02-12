@@ -12,6 +12,7 @@ namespace Sokoban
 
         public bool Open
         {
+            get { return _open; }
             set { _open = value; }
         }
         

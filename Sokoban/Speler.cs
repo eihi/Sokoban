@@ -23,7 +23,8 @@ namespace Sokoban
 
         public Speler(string r)
         {
-            MaakPlaatje(r);
+            _richting = r;
+            MaakPlaatje(_richting);
         }
     }
 }

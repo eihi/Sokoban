@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Reflection;
 using System.IO;
 
 namespace Sokoban
@@ -22,7 +23,7 @@ namespace Sokoban
     /// </summary>
     public partial class MainWindow : Window
     {
-        DispatcherTimer dt;
+        DispatcherTimer timer;
         private int _seconden = 0;
 
         public MainWindow()
@@ -48,7 +49,7 @@ namespace Sokoban
         {
             List<string> doolhof = new List<string>();
 
-            System.Reflection.Assembly thisExe = System.Reflection.Assembly.GetExecutingAssembly();
+            Assembly thisExe = Assembly.GetExecutingAssembly();
             string path = thisExe.Location;
             DirectoryInfo dirinfo = new DirectoryInfo(path);
             string folderName = dirinfo.Parent.FullName;
@@ -74,14 +75,14 @@ namespace Sokoban
 
         public void Timer()
         {
-            dt = new DispatcherTimer();
-            dt.Interval = new TimeSpan(0, 0, 1); // 1 seconde
-            dt.Tick += new EventHandler(Each_Tick);
+            timer = new DispatcherTimer();
+            timer.Interval = new TimeSpan(0, 0, 1); // 1 seconde
+            timer.Tick += new EventHandler(Each_Tick);
         }
 
         public void StartTimer() 
         {
-            dt.Start();
+            timer.Start();
         }
 
         public void ResetTimer()

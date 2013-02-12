@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using System.Reflection;
 using System.IO;
 
 namespace Sokoban
@@ -19,7 +20,7 @@ namespace Sokoban
 
         protected BitmapImage MaakPlaatje(string naam)
         {
-            System.Reflection.Assembly thisExe = System.Reflection.Assembly.GetExecutingAssembly();
+            Assembly thisExe = Assembly.GetExecutingAssembly();
             string path = thisExe.Location;
             DirectoryInfo dirinfo = new DirectoryInfo(path);
             string folderName = dirinfo.Parent.FullName;
