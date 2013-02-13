@@ -38,8 +38,12 @@ namespace Sokoban
 
         public void createGrid(List<string> doolhof)
         {
-            Bord bord = new Bord(doolhof);
-            this.VakkenView.Children.Add(bord.toonGrid());
+            BottomBord bottomBord = new BottomBord(doolhof);
+            TopBord topBord = new TopBord(doolhof);
+
+            this.VakkenView.Children.Add(bottomBord.toonGrid());
+            this.VakkenView.Children.Add(topBord.toonGrid());
+
             ResetTimer();
             StartTimer();
             verstrekenTijd.Content = "Tijd: " + _seconden;

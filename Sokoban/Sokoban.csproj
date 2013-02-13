@@ -68,8 +68,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BottomBord.cs" />
     <Compile Include="Doos.cs" />
     <Compile Include="Speler.cs" />
+    <Compile Include="TopBord.cs" />
     <Compile Include="Vak.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
