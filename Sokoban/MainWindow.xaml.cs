@@ -30,9 +30,7 @@ namespace Sokoban
         {
             // Initializen
             InitializeComponent();
-
-            // Timer
-            Timer();
+            Timer(); // Timer
         }
 
 
@@ -74,7 +72,6 @@ namespace Sokoban
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             createGrid(readLevel("Doolhof1"));
-            
         }
 
         public void Timer()
@@ -86,18 +83,33 @@ namespace Sokoban
 
         public void StartTimer() 
         {
-            timer.Start();
+            timer.Start(); // timer starten
         }
 
         public void ResetTimer()
-        {
-            _seconden = 0;
+        {            
+            timer.Stop(); // timer stoppen
+            
+            _seconden = 0; // seconden op 0 zetten
         }
 
         // Zolang de timer loopt wordt het elke seconde met 1 opgehoogd
         public void Each_Tick(object sender, EventArgs e)
         {
-            verstrekenTijd.Content = "Tijd: " + _seconden++;
+            verstrekenTijd.Content = "Tijd: " + _seconden++; // verstrekenTijd label updaten
+        }
+
+        public void CloseLevel()
+        {
+            this.VakkenView.Children.Clear(); // VakkenView Grid leeggooien
+            this.SpeelBord.Children.Clear(); // SpeelBord Grid leeggooien
+            verstrekenTijd.Content = ""; // timer label leegmaken
+            ResetTimer(); // Timer resetten
+        }
+
+        private void CloseLevelButton(object sender, RoutedEventArgs e)
+        {
+            CloseLevel(); // Level sluiten
         }
     }
 }

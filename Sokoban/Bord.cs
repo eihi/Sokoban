@@ -77,6 +77,7 @@ namespace Sokoban
         // Vak wordt bepaald aan de hand van een string
         public virtual Vak BepaalVak(string dh)
         {
+            // retourneert standaard null omdat subklassen via override Bepaalvak overnemen
             return null;
         }
     }

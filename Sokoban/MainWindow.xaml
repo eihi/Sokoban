@@ -7,7 +7,7 @@
             <MenuItem Header="_Start" Height="24">
                 <MenuItem Header="_Level 1" Click="Button_Click_1"/>
                 <Separator/>
-                <MenuItem Header="_Close"/>
+                <MenuItem Header="_Close" Click="CloseLevelButton"/>
             </MenuItem>
             <MenuItem Header="_Highscores" Height="24"/>
             <Label x:Name="verstrekenTijd" VerticalAlignment="Center" Margin="0"/>
