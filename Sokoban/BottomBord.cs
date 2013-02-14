@@ -10,15 +10,21 @@ using System.Windows.Media.Imaging;
 
 namespace Sokoban
 {
-    class BottomBord
+    class BottomBord : Bord
     {
-        List<List<Vak>> vakken;
 
+        public BottomBord(List<string> doolhof)
+        {
+            laag = "bottom";
+        }
+        
+        //List<List<Vak>> vakken;
+        /*
         // string[] doolhof als parameter meegeven
         public BottomBord(List<string> doolhof) 
         {
             // list aanmaken
-            vakken = new List<List<Vak>>();
+            //vakken = new List<List<Vak>>();
             
             for (int i = 0; i < doolhof.Count; i++)
             {
@@ -34,7 +40,7 @@ namespace Sokoban
                 vakken.Add(sublist);
             }
         }
-
+        
         public Grid toonGrid()
         {
             Grid grid = new Grid();
@@ -71,7 +77,7 @@ namespace Sokoban
 
             return grid;
         }
-
+        
         //
         // Retourneert Vak 
         // Vak wordt bepaald aan de hand van een string
@@ -81,11 +87,15 @@ namespace Sokoban
             {
                 case "#":
                     return new Muur();
+                case "o":
+                    return new Doos();
                 case "x":
                     return new Bestemming();
+                case "@":
+                    return new Speler();
                 default:
                     return new Vloer();
             }
-        }
+        }*/
     }
 }
