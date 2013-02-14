@@ -13,12 +13,7 @@ namespace Sokoban
     class Bord
     {
         List<List<Vak>> vakken;
-        public string laag;
 
-        public Bord()
-        { 
-        }
-        
         // string[] doolhof als parameter meegeven
         public Bord(List<string> doolhof) 
         {
@@ -39,85 +34,62 @@ namespace Sokoban
                 vakken.Add(sublist);
             }
         }
-        
+
         public Grid toonGrid()
         {
             Grid grid = new Grid();
             int CellSize = 40;
-            try
+
+            for(int i=0; i < vakken.Count; i++)
             {
-                for (int i = 0; i < vakken.Count; i++)
+                RowDefinition row = new RowDefinition();
+                row.Height = new GridLength(CellSize);
+                grid.RowDefinitions.Add(row);
+
+                //System.Diagnostics.Debug.WriteLine("TEST:" + vakken[i].Count);
+
+                for(int j=0; j < vakken[i].Count; j++)
                 {
-                    RowDefinition row = new RowDefinition();
-                    row.Height = new GridLength(CellSize);
-                    grid.RowDefinitions.Add(row);
+                    ColumnDefinition col = new ColumnDefinition();
+                    col.Width = new GridLength(CellSize);
+                    grid.ColumnDefinitions.Add(col);
 
-                    //System.Diagnostics.Debug.WriteLine("TEST:" + vakken[i].Count);
+                    //Get vak
+                    List<Vak> sublist = vakken[i];
+                    Vak temp = sublist[j];
 
-                    for (int j = 0; j < vakken[i].Count; j++)
-                    {
-                        ColumnDefinition col = new ColumnDefinition();
-                        col.Width = new GridLength(CellSize);
-                        grid.ColumnDefinitions.Add(col);
+                    //Get image
+                    Image img = new Image();
+                    img.Source = temp.Image;
 
-                        //Get vak
-                        List<Vak> sublist = vakken[i];
-                        Vak temp = sublist[j];
-
-                        //Get image
-                        Image img = new Image();
-                        img.Source = temp.Image;
-
-                        //Set image
-                        img.SetValue(Grid.ColumnProperty, j);
-                        img.SetValue(Grid.RowProperty, i);
-                        grid.Children.Add(img);
-                    }
+                    //Set image
+                    img.SetValue(Grid.ColumnProperty, j);
+                    img.SetValue(Grid.RowProperty, i);
+                    grid.Children.Add(img);
                 }
+            }
 
-                return grid;
-            }
-            catch (NullReferenceException e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
+            return grid;
         }
-        
+
         //
         // Retourneert Vak 
         // Vak wordt bepaald aan de hand van een string
         public Vak BepaalVak(string dh)
         {
-            if (laag == "top")
+            switch (dh)
             {
-                switch (dh)
-                {
-                    case "o":
-                        return new Doos();
-                    case "@":
-                        return new Speler();
-                    default:
-                        return null;
-                }
+                case "#":
+                    return new Muur();
+                case "o":
+                    return new Doos();
+                case "x":
+                    return new Bestemming();
+                case "@":
+                    return new Speler();
+                default:
+                    return new Vloer();
             }
-            else if (laag == "bottom")
-            {
-                switch (dh)
-                {
-                    case "#":
-                        return new Muur();
-                    case "o":
-                        return new Vloer();
-                    case "x":
-                        return new Bestemming();
-                    case "@":
-                        return new Vloer();
-                    default:
-                        return new Vloer();
-                }
-            }
-            return null;
         }
     }
 }
