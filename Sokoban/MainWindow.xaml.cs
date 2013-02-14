@@ -30,9 +30,47 @@ namespace Sokoban
         {
             // Initializen
             InitializeComponent();
+            this.SizeChanged += SizeChangedHandler;
             Timer(); // Timer
         }
 
+        private void SizeChangedHandler(object sender, SizeChangedEventArgs e)
+        {
+            RowDefinition[] rows =  VakkenView.RowDefinitions.ToArray();
+            ColumnDefinition[] columns = VakkenView.ColumnDefinitions.ToArray();
+
+            int _cellSize = getCellSize(VakkenView.RowDefinitions.Count,VakkenView.ColumnDefinitions.Count);
+
+            foreach(RowDefinition row in rows)
+            {
+                row.Height = new GridLength(_cellSize);
+            }
+
+            foreach (ColumnDefinition column in columns)
+            {
+                column.Width = new GridLength(_cellSize);
+            }
+        }
+
+        private int getCellSize(int nRows, int nCols)
+        {
+            double w = VakkenView.ActualWidth;
+            double h = VakkenView.ActualHeight - 76;
+
+
+            int hCellSize = (int)(h / nRows);
+            int wCellSize = (int)(w / nCols);
+
+
+            if (hCellSize < wCellSize)
+            {
+                return hCellSize;
+            }
+            else
+            {
+                return wCellSize;
+            }
+        }
 
         public void createGrid(List<string> doolhof)
         {
@@ -40,7 +78,7 @@ namespace Sokoban
             TopBord topBord = new TopBord(doolhof);
 
             this.VakkenView.Children.Add(bottomBord.toonGrid());
-            this.VakkenView.Children.Add(topBord.toonGrid());
+            this.SpeelBord.Children.Add(topBord.toonGrid());
 
             ResetTimer();
             StartTimer();
