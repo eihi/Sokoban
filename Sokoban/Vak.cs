@@ -53,4 +53,11 @@ namespace Sokoban
             MaakPlaatje("muur");
         }
     }
+    class Leegte : Vak
+    {
+        public Leegte()
+        {
+            
+        }
+    }
 }
