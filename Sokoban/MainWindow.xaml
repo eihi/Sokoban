@@ -9,7 +9,9 @@
                 <Separator/>
                 <MenuItem Header="_Close" Click="CloseLevelButton"/>
             </MenuItem>
-            <MenuItem Header="_Highscores"/>
+            <MenuItem Header="_Highscores">
+                <MenuItem Header="_Level 1" Click="LevelHighscoresButton"/>
+            </MenuItem>
             <Label x:Name="verstrekenTijd"/>
             <Label x:Name="aantalZetten"/>
         </Menu>

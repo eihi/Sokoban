@@ -24,6 +24,10 @@ namespace Sokoban
     public partial class MainWindow : Window
     {
         List<string> doolhof;
+        Highscores _highscores;
+        DispatcherTimer timer;
+        private int _seconden = 0;
+        private int _zetten = 0;
 
         public List<string> Doolhof
         {
@@ -31,57 +35,21 @@ namespace Sokoban
             set { doolhof = value; }
         }
 
-        DispatcherTimer timer;
-        private int _seconden = 0;
+        public void ResetZetten()
+        {
+            _zetten = 0;
+        }
 
         public MainWindow()
         {
             // Initializen
             InitializeComponent();
-            //this.SizeChanged += SizeChangedHandler;
             Timer(); // Timer
+            //highscores = new Highscores();
         }
-        /*
-        private void SizeChangedHandler(object sender, SizeChangedEventArgs e)
-        {
-            RowDefinition[] rows =  VakkenView.RowDefinitions.ToArray();
-            ColumnDefinition[] columns = VakkenView.ColumnDefinitions.ToArray();
-
-            int _cellSize = getCellSize(VakkenView.RowDefinitions.Count,VakkenView.ColumnDefinitions.Count);
-
-            foreach(RowDefinition row in rows)
-            { 
-                row.Height = new GridLength(_cellSize);
-            }
-
-            foreach (ColumnDefinition column in columns)
-            {
-                column.Width = new GridLength(_cellSize);
-            }
-        }
-
-        private int getCellSize(int nRows, int nCols)
-        {
-            double w = VakkenView.ActualWidth;
-            double h = VakkenView.ActualHeight - 76;
-
-
-            int hCellSize = (int)(h / nRows);
-            int wCellSize = (int)(w / nCols);
-
-
-            if (hCellSize < wCellSize)
-            {
-                return hCellSize;
-            }
-            else
-            {
-                return wCellSize;
-            }
-        }
-        */
         public void createGrid(List<string> doolhof)
         {
+            CloseLevel();
             BottomBord bottomBord = new BottomBord(doolhof, "");
             TopBord topBord = new TopBord(doolhof, "");
 
@@ -91,6 +59,7 @@ namespace Sokoban
             ResetTimer();
             StartTimer();
             verstrekenTijd.Content = "Tijd: " + _seconden;
+            aantalZetten.Content = "Zetten: " + _zetten;
         }
 
         public void readLevel(string level)
@@ -113,6 +82,26 @@ namespace Sokoban
             }
         }
 
+        public void readHighscores(string highscores)
+        {
+            _highscores = new Highscores();
+
+            Assembly thisExe = Assembly.GetExecutingAssembly();
+            string path = thisExe.Location;
+            DirectoryInfo dirinfo = new DirectoryInfo(path);
+            string folderName = dirinfo.Parent.FullName;
+            path = folderName + "/Highscores/" + highscores + ".txt";
+
+            using (var reader = new StreamReader(path))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    //_highscores.Add(line);
+                }
+            }
+        }
+
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             readLevel("Doolhof1");
@@ -131,17 +120,22 @@ namespace Sokoban
             timer.Start(); // timer starten
         }
 
-        public void ResetTimer()
-        {            
+        public void StopTimer()
+        {
             timer.Stop(); // timer stoppen
-            
+        }
+
+        public void ResetTimer()
+        {
+            StopTimer(); // timer stoppen
             _seconden = 0; // seconden op 0 zetten
         }
 
         // Zolang de timer loopt wordt het elke seconde met 1 opgehoogd
         public void Each_Tick(object sender, EventArgs e)
         {
-            verstrekenTijd.Content = "Tijd: " + _seconden++; // verstrekenTijd label updaten
+            _seconden = _seconden + 1;
+            verstrekenTijd.Content = "Tijd: " + _seconden; // verstrekenTijd label updaten
         }
 
         public void CloseLevel()
@@ -150,8 +144,7 @@ namespace Sokoban
             this.SpeelBord.Children.Clear(); // SpeelBord Grid leeggooien
             verstrekenTijd.Content = ""; // timer label leegmaken
             ResetTimer(); // Timer resetten
-
-            // Leeg de doolhof List??
+            aantalZetten.Content = ""; // zetten label leegmaken
         }
 
         private void CloseLevelButton(object sender, RoutedEventArgs e)
@@ -162,6 +155,8 @@ namespace Sokoban
         // Key Events
         private void Game_KeyDown(object sender, KeyEventArgs e)
         {
+            _zetten = _zetten + 1;
+            aantalZetten.Content = "Zetten: " + _zetten; // zetten label
             List<string> tempDoolhof = doolhof;
             string row;
             string verticalRow;
@@ -174,7 +169,7 @@ namespace Sokoban
             switch (e.Key)
             {
                 case Key.Left:
-                    richting = "links";    
+                    richting = "links";
 
                         // Vind de rij van de speler
                         row = tempDoolhof[VindSpeler()];
@@ -455,8 +450,16 @@ namespace Sokoban
 
             if (xcount == 0)
             {
+                StopTimer();
+                highscores.AddScore(new Score(_seconden, _zetten));
+                highscores.ShowHighscores();
                 MessageBox.Show("Je hebt 16K gewonnen! Like a G6");
             }   
+        }
+
+        private void LevelHighscoresButton(object sender, RoutedEventArgs e)
+        {
+            readHighscores("highscores1");
         }
 
     }
