@@ -16,15 +16,16 @@ namespace Sokoban
             set { _richting = value; }
         }
 
-        public Speler()
-        {
-            MaakPlaatje(_richting);
-        }
-
         public Speler(string r)
         {
-            _richting = r;
-            MaakPlaatje(_richting);
+            if (r.Equals(""))
+            {
+                MaakPlaatje(_richting);
+            }
+            else
+            {
+                MaakPlaatje(r);
+            }
         }
     }
 }

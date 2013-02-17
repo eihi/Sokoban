@@ -23,6 +23,14 @@ namespace Sokoban
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<string> doolhof;
+
+        public List<string> Doolhof
+        {
+            get { return doolhof; }
+            set { doolhof = value; }
+        }
+
         DispatcherTimer timer;
         private int _seconden = 0;
 
@@ -42,7 +50,7 @@ namespace Sokoban
             int _cellSize = getCellSize(VakkenView.RowDefinitions.Count,VakkenView.ColumnDefinitions.Count);
 
             foreach(RowDefinition row in rows)
-            {
+            { 
                 row.Height = new GridLength(_cellSize);
             }
 
@@ -74,8 +82,8 @@ namespace Sokoban
 
         public void createGrid(List<string> doolhof)
         {
-            BottomBord bottomBord = new BottomBord(doolhof);
-            TopBord topBord = new TopBord(doolhof);
+            BottomBord bottomBord = new BottomBord(doolhof, "");
+            TopBord topBord = new TopBord(doolhof, "");
 
             this.VakkenView.Children.Add(bottomBord.toonGrid());
             this.SpeelBord.Children.Add(topBord.toonGrid());
@@ -85,9 +93,9 @@ namespace Sokoban
             verstrekenTijd.Content = "Tijd: " + _seconden;
         }
 
-        public List<string> readLevel(string level)
+        public void readLevel(string level)
         {
-            List<string> doolhof = new List<string>();
+            doolhof = new List<string>();
 
             Assembly thisExe = Assembly.GetExecutingAssembly();
             string path = thisExe.Location;
@@ -103,13 +111,12 @@ namespace Sokoban
                     doolhof.Add(line);
                 }
             }
-
-            return doolhof;
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            createGrid(readLevel("Doolhof1"));
+            readLevel("Doolhof1");
+            createGrid(doolhof);
         }
 
         public void Timer()
@@ -143,11 +150,314 @@ namespace Sokoban
             this.SpeelBord.Children.Clear(); // SpeelBord Grid leeggooien
             verstrekenTijd.Content = ""; // timer label leegmaken
             ResetTimer(); // Timer resetten
+
+            // Leeg de doolhof List??
         }
 
         private void CloseLevelButton(object sender, RoutedEventArgs e)
         {
             CloseLevel(); // Level sluiten
         }
+
+        // Key Events
+        private void Game_KeyDown(object sender, KeyEventArgs e)
+        {
+            List<string> tempDoolhof = doolhof;
+            string row;
+            string verticalRow;
+            string secondVerticalRow;
+            int positieSpeler;
+            int spelerRow;
+
+            string richting;
+
+            switch (e.Key)
+            {
+                case Key.Left:
+                    richting = "links";    
+
+                        // Vind de rij van de speler
+                        row = tempDoolhof[VindSpeler()];
+
+                        // Vind de positie van de speler
+                        positieSpeler = row.IndexOf("@");
+
+                        // Vind de nieuwe positie
+                        if (row[positieSpeler - 1].Equals(Convert.ToChar(" ")))
+                        {
+                            char[] temp = row.ToCharArray();
+                            temp[positieSpeler - 1] = Convert.ToChar("@");
+                            temp[positieSpeler] = Convert.ToChar(" ");
+ 
+                            tempDoolhof[VindSpeler()] = new string(temp);
+                        }
+
+                        if (row[positieSpeler - 1].Equals(Convert.ToChar("x")))
+                        {
+                            char[] temp = row.ToCharArray();
+                            temp[positieSpeler - 1] = Convert.ToChar("@");
+                            temp[positieSpeler] = Convert.ToChar("x");
+
+                            tempDoolhof[VindSpeler()] = new string(temp);
+                        }
+
+                        // Staat er een doos?
+                        if (row[positieSpeler - 1].Equals(Convert.ToChar("o")))
+                        {
+                            // Kan de doos bewegen?
+                            if (row[positieSpeler - 2].Equals(Convert.ToChar(" ")) || row[positieSpeler - 2].Equals(Convert.ToChar("x")))
+                            {
+                                // Beweeg doos
+                                char[] temp = row.ToCharArray();
+                                temp[positieSpeler - 2] = Convert.ToChar("o");
+                                temp[positieSpeler - 1] = Convert.ToChar("@");
+                                temp[positieSpeler] = Convert.ToChar(" ");
+
+                                tempDoolhof[VindSpeler()] = new string(temp);
+                            }
+                        }
+                    break;
+
+                case Key.Right:
+                    richting = "rechts"; 
+
+                    // Vind de rij van de speler
+                    row = tempDoolhof[VindSpeler()];
+
+                    // Vind de positie van de speler
+                    positieSpeler = row.IndexOf("@");
+
+                    // Vind de nieuwe positie
+                    if (row[positieSpeler + 1].Equals(Convert.ToChar(" ")))
+                    {
+                        char[] temp = row.ToCharArray();
+                        temp[positieSpeler + 1] = Convert.ToChar("@");
+                        temp[positieSpeler] = Convert.ToChar(" ");
+
+                        tempDoolhof[VindSpeler()] = new string(temp);
+                    }
+
+                    if (row[positieSpeler + 1].Equals(Convert.ToChar("x")))
+                    {
+                        char[] temp = row.ToCharArray();
+                        temp[positieSpeler + 1] = Convert.ToChar("@");
+                        temp[positieSpeler] = Convert.ToChar("x");
+
+                        tempDoolhof[VindSpeler()] = new string(temp);
+                    }
+
+                    // Staat er een doos?
+                    if (row[positieSpeler + 1].Equals(Convert.ToChar("o")))
+                    {
+                        // Kan de doos bewegen?
+                        if (row[positieSpeler + 2].Equals(Convert.ToChar(" ")) || row[positieSpeler + 2].Equals(Convert.ToChar("x")))
+                        {
+                            // Beweeg doos
+                            char[] temp = row.ToCharArray();
+                            temp[positieSpeler + 2] = Convert.ToChar("o");
+                            temp[positieSpeler + 1] = Convert.ToChar("@");
+                            temp[positieSpeler] = Convert.ToChar(" ");
+
+                            tempDoolhof[VindSpeler()] = new string(temp);
+                        }
+                    }
+
+                    break;
+
+                case Key.Up:
+                    richting = "boven"; 
+
+                    // Vind de rij van de speler
+                    row = tempDoolhof[VindSpeler()];
+                    spelerRow = VindSpeler();
+                    verticalRow = tempDoolhof[spelerRow - 1];
+
+                    // Vind de positie van de speler
+                    positieSpeler = row.IndexOf("@");
+
+                    // Vind de nieuwe positie
+                    if (verticalRow[positieSpeler].Equals(Convert.ToChar(" ")))
+                    {
+                        // Verander in bovenste rij
+                        char[] temp = verticalRow.ToCharArray();
+                        temp[positieSpeler] = Convert.ToChar("@");
+                        tempDoolhof[spelerRow - 1] = new string(temp);
+
+                        // Verander in onderste rij
+                        char[] temp2 = row.ToCharArray();
+                        temp2[positieSpeler] = Convert.ToChar(" ");
+                        tempDoolhof[spelerRow] = new string(temp2);
+                    }
+
+                    if (verticalRow[positieSpeler].Equals(Convert.ToChar("x")))
+                    {
+                        // Verander in bovenste rij
+                        char[] temp = verticalRow.ToCharArray();
+                        temp[positieSpeler] = Convert.ToChar("@");
+                        tempDoolhof[spelerRow - 1] = new string(temp);
+
+                        // Verander in onderste rij
+                        char[] temp2 = row.ToCharArray();
+                        temp2[positieSpeler] = Convert.ToChar("x");
+                        tempDoolhof[spelerRow] = new string(temp2);
+                    }
+
+                    // Staat er een doos?
+                    if (verticalRow[positieSpeler].Equals(Convert.ToChar("o")))
+                    {
+                        if ((spelerRow - 2) >= 0 )// Voorkom out of bounds
+                        {
+                            secondVerticalRow = tempDoolhof[spelerRow - 2];
+
+                            // Kan de doos bewegen?
+                            if (secondVerticalRow[positieSpeler].Equals(Convert.ToChar(" ")) || secondVerticalRow[positieSpeler].Equals(Convert.ToChar("x")))
+                            {
+                                // Beweeg doos
+
+                                // Verander in bovenste rij
+                                char[] temp = secondVerticalRow.ToCharArray();
+                                temp[positieSpeler] = Convert.ToChar("o");
+                                tempDoolhof[spelerRow - 2] = new string(temp);
+
+                                // Verander in middelste rij
+                                char[] temp2 = verticalRow.ToCharArray();
+                                temp2[positieSpeler] = Convert.ToChar("@");
+                                tempDoolhof[spelerRow - 1] = new string(temp2);
+
+                                // Verander in onderste rij
+                                char[] temp3 = row.ToCharArray();
+                                temp3[positieSpeler] = Convert.ToChar(" ");
+                                tempDoolhof[spelerRow] = new string(temp3);
+                            }
+                        }
+                    }
+
+                    break;
+
+                case Key.Down:
+                    richting = "beneden"; 
+
+                    // Vind de rij van de speler
+                    row = tempDoolhof[VindSpeler()];
+                    spelerRow = VindSpeler();
+                    verticalRow = tempDoolhof[spelerRow + 1];
+
+                    // Vind de positie van de speler
+                    positieSpeler = row.IndexOf("@");
+
+                    // Vind de nieuwe positie
+                    if (verticalRow[positieSpeler].Equals(Convert.ToChar(" ")))
+                    {
+                        // Verander in bovenste rij
+                        char[] temp = row.ToCharArray();
+                        temp[positieSpeler] = Convert.ToChar(" ");
+                        tempDoolhof[spelerRow] = new string(temp);
+
+                        // Verander in onderste rij
+                        char[] temp2 = verticalRow.ToCharArray();
+                        temp2[positieSpeler] = Convert.ToChar("@");
+                        tempDoolhof[spelerRow + 1] = new string(temp2);
+                    }
+
+                    if (verticalRow[positieSpeler].Equals(Convert.ToChar("x")))
+                    {
+                        // Verander in bovenste rij
+                        char[] temp = row.ToCharArray();
+                        temp[positieSpeler] = Convert.ToChar("x");
+                        tempDoolhof[spelerRow] = new string(temp);
+
+                        // Verander in onderste rij
+                        char[] temp2 = verticalRow.ToCharArray();
+                        temp2[positieSpeler] = Convert.ToChar("@");
+                        tempDoolhof[spelerRow + 1] = new string(temp2);
+                    }
+
+                    // Staat er een doos?
+                    if (verticalRow[positieSpeler].Equals(Convert.ToChar("o")))
+                    {
+                        if ((spelerRow + 2) <= tempDoolhof.Count)// Voorkom out of bounds
+                        {
+                            secondVerticalRow = tempDoolhof[spelerRow + 2];
+
+                            // Kan de doos bewegen?
+                            if (secondVerticalRow[positieSpeler].Equals(Convert.ToChar(" ")) || secondVerticalRow[positieSpeler].Equals(Convert.ToChar("x")))
+                            {
+                                // Beweeg doos
+
+                                // Verander in onderste rij
+                                char[] temp = secondVerticalRow.ToCharArray();
+                                temp[positieSpeler] = Convert.ToChar("o");
+                                tempDoolhof[spelerRow + 2] = new string(temp);
+
+                                // Verander in middelste rij
+                                char[] temp2 = verticalRow.ToCharArray();
+                                temp2[positieSpeler] = Convert.ToChar("@");
+                                tempDoolhof[spelerRow + 1] = new string(temp2);
+
+                                // Verander in bovenste rij
+                                char[] temp3 = row.ToCharArray();
+                                temp3[positieSpeler] = Convert.ToChar(" ");
+                                tempDoolhof[spelerRow] = new string(temp3);
+                            }
+
+                        }
+                    }
+
+                    break;
+
+                default:
+                    return;
+            }
+
+            // Update doolhof
+            doolhof = tempDoolhof;
+
+            // Refresh TopBord
+            this.SpeelBord.Children.Clear();
+            TopBord topBord = new TopBord(doolhof, richting);
+            this.SpeelBord.Children.Add(topBord.toonGrid());
+
+            // Heeft Gewonnen?
+            HeeftGewonnen();
+        }
+
+        public int VindSpeler()
+        {
+            for(int i = 0; i < doolhof.Count; i++)
+            {
+                foreach (char c in doolhof[i])
+                {
+                    if(c.Equals(Convert.ToChar("@")))
+                    {
+                        return i;
+                    }
+                }
+            }
+
+            return -1;
+        }
+
+        public void HeeftGewonnen()
+        {
+            // Als er geen x'en meer in het doolhof zitten, heeft de speler gewonnen
+            int xcount = 0;
+
+            for (int i = 0; i < doolhof.Count; i++)
+            {
+                foreach (char c in doolhof[i])
+                {
+                    if (c.Equals(Convert.ToChar("x")))
+                    {
+                        xcount++;
+                    }
+                }
+            }
+
+            if (xcount == 0)
+            {
+                MessageBox.Show("Je hebt 16K gewonnen! Like a G6");
+            }   
+        }
+
     }
 }

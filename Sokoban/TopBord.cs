@@ -13,22 +13,22 @@ namespace Sokoban
     class TopBord : Bord
     {
        // string[] doolhof als parameter meegeven
-        public TopBord(List<string> doolhof) : base(doolhof) { }
+        public TopBord(List<string> doolhof, string richting) : base(doolhof, richting) { }
         
         //
         // Retourneert Vak 
         // Vak wordt bepaald aan de hand van een string
-        public override Vak BepaalVak(string dh)
+        public override Vak BepaalVak(string dh, string richting)
         {
             switch (dh)
             {
                 case "o":
                     return new Doos();
                 case "@":
-                    return new Speler();
+                    return new Speler(richting);
                 default:
                     return new Leegte();
             }
-        }
+        } 
     }
 }

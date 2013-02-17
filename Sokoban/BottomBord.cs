@@ -13,12 +13,12 @@ namespace Sokoban
     class BottomBord : Bord
     {
         // string[] doolhof als parameter meegeven
-        public BottomBord(List<string> doolhof) : base(doolhof) { }
+        public BottomBord(List<string> doolhof, string richting) : base(doolhof, richting) { }
         
         //
         // Retourneert Vak 
         // Vak wordt bepaald aan de hand van een string
-        public override Vak BepaalVak(string dh)
+        public override Vak BepaalVak(string dh, string richting)
         {
             switch (dh)
             {

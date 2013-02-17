@@ -15,7 +15,7 @@ namespace Sokoban
         List<List<Vak>> vakken;
 
         // string[] doolhof als parameter meegeven
-        public Bord(List<string> doolhof) 
+        public Bord(List<string> doolhof, string richting) 
         {
             // list aanmaken
             vakken = new List<List<Vak>>();
@@ -27,7 +27,7 @@ namespace Sokoban
 
                 foreach (char c in doolhof[i])
                 {
-                    sublist.Add(BepaalVak(c.ToString()));
+                    sublist.Add(BepaalVak(c.ToString(), richting));
                 }
 
                 // Voegt sublist toe aan vakken list
@@ -75,7 +75,7 @@ namespace Sokoban
         //
         // Retourneert Vak 
         // Vak wordt bepaald aan de hand van een string
-        public virtual Vak BepaalVak(string dh)
+        public virtual Vak BepaalVak(string dh, string richting)
         {
             // retourneert standaard null omdat subklassen via override Bepaalvak overnemen
             return null;
