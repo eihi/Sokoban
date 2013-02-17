@@ -60,7 +60,6 @@ namespace Sokoban
 
         public void createGrid(List<string> doolhof)
         {
-            CloseLevel();
             BottomBord bottomBord = new BottomBord(doolhof, "");
             TopBord topBord = new TopBord(doolhof, "");
 
@@ -109,28 +108,13 @@ namespace Sokoban
 
         public void readHighscores(string highscores)
         {
-            _highscores = new Highscores();
-
             Assembly thisExe = Assembly.GetExecutingAssembly();
             string path = thisExe.Location;
             DirectoryInfo dirinfo = new DirectoryInfo(path);
             string folderName = dirinfo.Parent.FullName;
             path = folderName + "/Highscores/" + highscores + ".txt";
 
-            using (var reader = new StreamReader(path))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    //_highscores.Add(line);
-                }
-            }
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            readLevel("Doolhof1");
-            createGrid(doolhof);
+            System.Diagnostics.Process.Start(path);
         }
 
         public void Timer()
@@ -445,7 +429,7 @@ namespace Sokoban
 
             if (xcounter == _maximum)
             {
-                MessageBox.Show("Je hebt 16K gewonnen! Like a G6");
+                MessageBox.Show("U heeft gewonnen! Schouderklopje");
                 CloseLevel();
             }
         }
@@ -453,6 +437,12 @@ namespace Sokoban
         private void LevelHighscoresButton(object sender, RoutedEventArgs e)
         {
             readHighscores("highscores1");
+        }
+
+        private void Level1(object sender, RoutedEventArgs e)
+        {
+            readLevel("Doolhof1");
+            createGrid(doolhof);
         }
 
         private void Level2(object sender, RoutedEventArgs e)
