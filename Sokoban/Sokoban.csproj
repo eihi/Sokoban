@@ -70,8 +70,6 @@
     </ApplicationDefinition>
     <Compile Include="BottomBord.cs" />
     <Compile Include="Doos.cs" />
-    <Compile Include="Highscores.cs" />
-    <Compile Include="Score.cs" />
     <Compile Include="Speler.cs" />
     <Compile Include="TopBord.cs" />
     <Compile Include="Vak.cs" />

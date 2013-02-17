@@ -39,16 +39,11 @@ namespace Sokoban
             set { originalDoolhof = value; }
         }
 
-        Highscores _highscores;
         DispatcherTimer timer;
         private int _seconden = 0;
         private int _zetten = 0;
         private int _maximum = 0;
-
-        public void ResetZetten()
-        {
-            _zetten = 0;
-        }
+        private int _level;
 
         public MainWindow()
         {
@@ -77,11 +72,14 @@ namespace Sokoban
             doolhof = new List<string>();
             originalDoolhof = new List<string>();
 
+            // Level in var stoppen
+            _level = Convert.ToInt32(level);
+
             Assembly thisExe = Assembly.GetExecutingAssembly();
             string path = thisExe.Location;
             DirectoryInfo dirinfo = new DirectoryInfo(path);
             string folderName = dirinfo.Parent.FullName;
-            path = folderName + "/Levels/" + level + ".txt";
+            path = folderName + "/Levels/Doolhof" + level + ".txt";
 
             using (var reader = new StreamReader(path))
             {
@@ -112,7 +110,7 @@ namespace Sokoban
             string path = thisExe.Location;
             DirectoryInfo dirinfo = new DirectoryInfo(path);
             string folderName = dirinfo.Parent.FullName;
-            path = folderName + "/Highscores/" + highscores + ".txt";
+            path = folderName + "/Highscores/Highscores" + highscores + ".txt";
 
             System.Diagnostics.Process.Start(path);
         }
@@ -153,7 +151,10 @@ namespace Sokoban
             this.SpeelBord.Children.Clear(); // SpeelBord Grid leeggooien
             verstrekenTijd.Content = ""; // timer label leegmaken
             ResetTimer(); // Timer resetten
-            aantalZetten.Content = ""; // zetten label leegmaken
+
+            _zetten = 0;
+            aantalZetten.Content = "";
+
             doolhof = null;
             originalDoolhof = null;
             _maximum = 0;
@@ -382,6 +383,10 @@ namespace Sokoban
                 TopBord topBord = new TopBord(doolhof, richting);
                 this.SpeelBord.Children.Add(topBord.toonGrid());
 
+                // Zet erbij
+                _zetten++;
+                aantalZetten.Content = ("Zetten: " + Convert.ToString(_zetten));
+
                 // Heeft Gewonnen?
                 HeeftGewonnen();
             }
@@ -430,48 +435,90 @@ namespace Sokoban
             if (xcounter == _maximum)
             {
                 MessageBox.Show("U heeft gewonnen! Schouderklopje");
+
+                // Highscore toevoegen
+                Assembly thisExe = Assembly.GetExecutingAssembly();
+                string path = thisExe.Location;
+                DirectoryInfo dirinfo = new DirectoryInfo(path);
+                string folderName = dirinfo.Parent.FullName;
+                path = folderName + "/Highscores/Highscores" + _level + ".txt";
+
+                File.AppendAllText(path, "Aantal seconden: " + _seconden + " Aantal zetten: " + _zetten + Environment.NewLine);
+
+                // Close
                 CloseLevel();
             }
         }
 
-        private void LevelHighscoresButton(object sender, RoutedEventArgs e)
+        private void Highscores1(object sender, RoutedEventArgs e)
         {
-            readHighscores("highscores1");
+            readHighscores("1");
+        }
+
+        private void Highscores2(object sender, RoutedEventArgs e)
+        {
+            readHighscores("2");
+        }
+
+        private void Highscores3(object sender, RoutedEventArgs e)
+        {
+            readHighscores("3");
+        }
+
+        private void Highscores4(object sender, RoutedEventArgs e)
+        {
+            readHighscores("4");
+        }
+
+        private void Highscores5(object sender, RoutedEventArgs e)
+        {
+            readHighscores("5");
+        }
+
+        private void Highscores6(object sender, RoutedEventArgs e)
+        {
+            readHighscores("6");
         }
 
         private void Level1(object sender, RoutedEventArgs e)
         {
-            readLevel("Doolhof1");
+            CloseLevel();
+            readLevel("1");
             createGrid(doolhof);
         }
 
         private void Level2(object sender, RoutedEventArgs e)
         {
-            readLevel("Doolhof2");
+            CloseLevel();
+            readLevel("2");
             createGrid(doolhof);
         }
 
         private void Level3(object sender, RoutedEventArgs e)
         {
-            readLevel("Doolhof3");
+            CloseLevel();
+            readLevel("3");
             createGrid(doolhof);
         }
 
         private void Level4(object sender, RoutedEventArgs e)
         {
-            readLevel("Doolhof4");
+            CloseLevel();
+            readLevel("4");
             createGrid(doolhof);
         }
 
         private void Level5(object sender, RoutedEventArgs e)
         {
-            readLevel("Doolhof5");
+            CloseLevel();
+            readLevel("5");
             createGrid(doolhof);
         }
 
         private void Level6(object sender, RoutedEventArgs e)
         {
-            readLevel("Doolhof6");
+            CloseLevel();
+            readLevel("6");
             createGrid(doolhof);
         }
 
