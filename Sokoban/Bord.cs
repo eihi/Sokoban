@@ -38,12 +38,12 @@ namespace Sokoban
         public Grid toonGrid()
         {
             Grid grid = new Grid();
-            int CellSize = 40;
+            //int CellSize = 40;
 
             for(int i=0; i < vakken.Count; i++)
             {
                 RowDefinition row = new RowDefinition();
-                row.Height = new GridLength(CellSize);
+                //row.Height = new GridLength(CellSize);
                 grid.RowDefinitions.Add(row);
 
                 //System.Diagnostics.Debug.WriteLine("TEST:" + vakken[i].Count);
@@ -51,7 +51,7 @@ namespace Sokoban
                 for(int j=0; j < vakken[i].Count; j++)
                 {
                     ColumnDefinition col = new ColumnDefinition();
-                    col.Width = new GridLength(CellSize);
+                    //col.Width = new GridLength(CellSize);
                     grid.ColumnDefinitions.Add(col);
 
                     //Get vak
@@ -65,10 +65,11 @@ namespace Sokoban
                     //Set image
                     img.SetValue(Grid.ColumnProperty, j);
                     img.SetValue(Grid.RowProperty, i);
+                    img.Stretch = Stretch.UniformToFill;
                     grid.Children.Add(img);
                 }
             }
-
+            
             return grid;
         }
 

@@ -26,6 +26,8 @@ namespace Sokoban
                     return new Doos();
                 case "@":
                     return new Speler(richting);
+                case "#":
+                    return new Muur();
                 default:
                     return new Leegte();
             }

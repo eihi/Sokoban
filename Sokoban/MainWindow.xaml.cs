@@ -38,10 +38,10 @@ namespace Sokoban
         {
             // Initializen
             InitializeComponent();
-            this.SizeChanged += SizeChangedHandler;
+            //this.SizeChanged += SizeChangedHandler;
             Timer(); // Timer
         }
-
+        /*
         private void SizeChangedHandler(object sender, SizeChangedEventArgs e)
         {
             RowDefinition[] rows =  VakkenView.RowDefinitions.ToArray();
@@ -79,7 +79,7 @@ namespace Sokoban
                 return wCellSize;
             }
         }
-
+        */
         public void createGrid(List<string> doolhof)
         {
             BottomBord bottomBord = new BottomBord(doolhof, "");

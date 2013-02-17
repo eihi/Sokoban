@@ -57,7 +57,7 @@ namespace Sokoban
     {
         public Leegte()
         {
-            
+            MaakPlaatje("leegte");
         }
     }
 }
