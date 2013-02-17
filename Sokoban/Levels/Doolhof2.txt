@@ -3,6 +3,6 @@
 ######ox#
 #   o ox#
 # @ooxxx#
-# oooxx##
-#  o xx#
+# o oxx##
+#  o  x#
 ########

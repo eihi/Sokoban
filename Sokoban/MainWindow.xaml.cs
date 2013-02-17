@@ -455,5 +455,35 @@ namespace Sokoban
             readHighscores("highscores1");
         }
 
+        private void Level2(object sender, RoutedEventArgs e)
+        {
+            readLevel("Doolhof2");
+            createGrid(doolhof);
+        }
+
+        private void Level3(object sender, RoutedEventArgs e)
+        {
+            readLevel("Doolhof3");
+            createGrid(doolhof);
+        }
+
+        private void Level4(object sender, RoutedEventArgs e)
+        {
+            readLevel("Doolhof4");
+            createGrid(doolhof);
+        }
+
+        private void Level5(object sender, RoutedEventArgs e)
+        {
+            readLevel("Doolhof5");
+            createGrid(doolhof);
+        }
+
+        private void Level6(object sender, RoutedEventArgs e)
+        {
+            readLevel("Doolhof6");
+            createGrid(doolhof);
+        }
+
     }
 }

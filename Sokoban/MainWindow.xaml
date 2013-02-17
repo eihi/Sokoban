@@ -6,6 +6,11 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_Start">
                 <MenuItem Header="_Level 1" Click="Button_Click_1"/>
+                <MenuItem Header="_Level 2" Click="Level2"/>
+                <MenuItem Header="_Level 3" Click="Level3"/>
+                <MenuItem Header="_Level 4" Click="Level4"/>
+                <MenuItem Header="_Level 5" Click="Level5"/>
+                <MenuItem Header="_Level 6" Click="Level6"/>
                 <Separator/>
                 <MenuItem Header="_Close" Click="CloseLevelButton"/>
             </MenuItem>
