@@ -10,7 +10,7 @@ using System.Windows.Media.Imaging;
 
 namespace Sokoban
 {
-    class Bord
+    abstract class Bord
     {
         List<List<Vak>> vakken;
 

@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Sokoban
 {
-    class Vak
+    abstract class Vak
     {
         private BitmapImage img;
 
